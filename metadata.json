@@ -1,0 +1,8 @@
+{
+  "name": "UrbanServe - Local Service Booking",
+  "description": "A comprehensive local service booking platform with User, Provider, and Admin modules.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": []
+}

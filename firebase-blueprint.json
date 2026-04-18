@@ -1,0 +1,122 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A customer or admin on the platform.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["uid", "name", "email", "role", "createdAt", "updatedAt"]
+    },
+    "Provider": {
+      "title": "Provider",
+      "description": "A service provider (partner).",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "active", "rejected", "blocked"] },
+        "kycVerified": { "type": "boolean" },
+        "rating": { "type": "number" },
+        "reviewsCount": { "type": "number" },
+        "services": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["uid", "name", "email", "status", "kycVerified", "rating", "reviewsCount", "createdAt", "updatedAt"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Top level service category.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "icon": { "type": "string" },
+        "order": { "type": "number" }
+      },
+      "required": ["name", "icon", "order"]
+    },
+    "Service": {
+      "title": "Service",
+      "description": "A specific service under a category.",
+      "type": "object",
+      "properties": {
+        "categoryId": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "image": { "type": "string" }
+      },
+      "required": ["categoryId", "name", "description", "price"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "A service order or booking.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "providerId": { "type": "string" },
+        "serviceId": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "in_progress", "completed", "cancelled"] },
+        "scheduledAt": { "type": "number" },
+        "amount": { "type": "number" },
+        "paymentStatus": { "type": "string", "enum": ["pending", "paid", "refunded"] },
+        "address": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["userId", "providerId", "serviceId", "status", "scheduledAt", "amount", "paymentStatus", "address", "createdAt", "updatedAt"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "A review left by a user for a provider.",
+      "type": "object",
+      "properties": {
+        "bookingId": { "type": "string" },
+        "userId": { "type": "string" },
+        "providerId": { "type": "string" },
+        "rating": { "type": "number" },
+        "comment": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["bookingId", "userId", "providerId", "rating", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "User" },
+      "description": "Store users and admins."
+    },
+    "/providers/{providerId}": {
+      "schema": { "$ref": "Provider" },
+      "description": "Store service providers."
+    },
+    "/categories/{categoryId}": {
+      "schema": { "$ref": "Category" },
+      "description": "Service categories."
+    },
+    "/services/{serviceId}": {
+      "schema": { "$ref": "Service" },
+      "description": "Specific services."
+    },
+    "/bookings/{bookingId}": {
+      "schema": { "$ref": "Booking" },
+      "description": "Bookings created by users."
+    },
+    "/reviews/{reviewId}": {
+      "schema": { "$ref": "Review" },
+      "description": "Ratings and reviews."
+    }
+  }
+}
